@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'home',
     'keys',
     'login',
-    'splash_screen'
+    'splash_screen',
+    'welcome',
 ]
 
 MIDDLEWARE_CLASSES = [

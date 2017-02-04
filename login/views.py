@@ -24,6 +24,7 @@ def login(request):
 					if(teacher.password==password):
 						response['success']=True
 						response['message']="Permission Granted"
+						response['user_type']=user_type
 						response['access_token']=jwt.encode({'roll_no':roll_no_get,"user_type":user_type}, str(KEYS.objects.get(key='jwt').value), algorithm='HS256')
 					else:
 						response['success']=False
@@ -41,6 +42,7 @@ def login(request):
 					if(student.password==password):
 						response['success']=True
 						response['message']="Permission Granted"
+						response['user_type']=user_type
 						response['access_token']=jwt.encode({'roll_no':roll_no_get,"user_type":user_type}, str(KEYS.objects.get(key='jwt').value), algorithm='HS256')
 					else:
 						response['success']=False

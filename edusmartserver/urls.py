@@ -18,10 +18,14 @@ from django.conf.urls import url
 from django.contrib import admin
 from login.views import login
 from subjects.views import file_upload
+from splash_screen.views import splash
+from welcome.views import welcome
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', login),
     url(r'^upload/', file_upload),
+    url(r'^splash_screen/', splash),
+    url(r'^welcome/', welcome),
 ]
 
 from django.conf import settings

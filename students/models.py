@@ -16,5 +16,5 @@ class students_data(models.Model):
 		return str(roll_no)+' '+str(name)
 
 class students_in_class_data(models.Model):
-	student=models.ForeignKey(students_data)
-	class_name=models.ForeignKey(class_data)
+	student=models.ForeignKey(students_data,to_field='id')
+	class_name=models.ForeignKey(class_data,to_field='id')

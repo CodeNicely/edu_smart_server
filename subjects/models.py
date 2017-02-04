@@ -6,7 +6,7 @@ from teachers.models import teachers_data
 from department.models import department_data
 # Create your models here.
 class subjects_data(models.Model):
-	department=models.ForeignKey(department_data)
+	department=models.ForeignKey(department_data,to_field='id')
 	name=models.CharField(max_length=120,blank=False,null=False)
 	modified= models.DateTimeField(auto_now=True,auto_now_add=False)
 	created= models.DateTimeField(auto_now=False,auto_now_add=True)
@@ -15,9 +15,9 @@ class subjects_data(models.Model):
 		return str(self.name)
 
 class subjects_class_teacher_data(models.Model):
-	subject=models.ForeignKey(subjects_data)
-	class_id= models.ForeignKey(class_data)
-	teacher= models.ForeignKey(teachers_data)
+	subject=models.ForeignKey(subjects_data,to_field='id')
+	class_id= models.ForeignKey(class_data,to_field='id')
+	teacher= models.ForeignKey(teachers_data,to_field='id')
 
 class subjects_syllabus(models.Model):
 	title=models.CharField(max_length=120,blank=False,null=False)
@@ -26,22 +26,9 @@ class subjects_syllabus(models.Model):
 	modified= models.DateTimeField(auto_now=True,auto_now_add=False)
 	created= models.DateTimeField(auto_now=False,auto_now_add=True)
 
-class subjects_assignments(models.Model):
-	title=models.CharField(max_length=120,blank=False,null=False)
-	subject= models.ForeignKey(subjects_data)
-	file= models.FileField(upload_to='resources/',null=True)
-	deadline= models.DateTimeField()
-	modified= models.DateTimeField(auto_now=True,auto_now_add=False)
-	created= models.DateTimeField(auto_now=False,auto_now_add=True)
 
 class subjects_resources(models.Model):
-	subject= models.ForeignKey(subjects_data)
-	title=models.CharField(max_length=120,blank=False,null=False)
-	file= models.FileField(upload_to='resources/',null=True)
-	created= models.DateTimeField(auto_now=False,auto_now_add=True)
-
-class subjects_announcements(models.Model):
-	subject= models.ForeignKey(subjects_data)
+	subject= models.ForeignKey(subjects_data,to_field='id')
 	title=models.CharField(max_length=120,blank=False,null=False)
 	file= models.FileField(upload_to='resources/',null=True)
 	created= models.DateTimeField(auto_now=False,auto_now_add=True)

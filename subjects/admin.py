@@ -13,17 +13,10 @@ class subjects_syllabusAdmin(admin.ModelAdmin):
 	list_display=["title","subject"]
 admin.site.register(subjects_syllabus,subjects_syllabusAdmin)
 
-class subjects_assignmentsAdmin(admin.ModelAdmin):
-	list_display=["title","subject","deadline"]
-admin.site.register(subjects_assignments,subjects_assignmentsAdmin)
 
 class subjects_resourcesAdmin(admin.ModelAdmin):
 	list_display=["subject","title","file","created"]
 admin.site.register(subjects_resources,subjects_resourcesAdmin)
-
-class subjects_announcementsAdmin(admin.ModelAdmin):
-	list_display=["subject","title","file","created"]
-admin.site.register(subjects_announcements,subjects_announcementsAdmin)
 
 # class subjects_resources(admin.ModelAdmin):
 # 	list_display=["title","class_id","teacher","created","modified"]
