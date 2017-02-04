@@ -114,7 +114,7 @@ def threading(request):
 						if(o.department==teacher_data.objects.get(id=id).department):
 							flag=1
 					if(user_type==1):
-						if(o.department==class_data.objects.get(id=students_in_class_data.objects.get(teacher=id).class_name).department)
+						if(o.department==class_data.objects.get(id=students_in_class_data.objects.get(student=id).class_name).department)
 						flag=1
 				if(o.access_level==2):
 					if(user_type==0):
@@ -139,7 +139,7 @@ def threading(request):
 	if(request.method=='POST'):
 		try:
 			access_token=request.POST.get('access_token')
-			access_level=request.POST.get('access_level')
+			access_level=int(request.POST.get('access_level'))
 			title=request.POST.get('title')
 			description=request.POST.get('description')
 			json_decoded=jwt.decode(str(access_token),str(KEYS_internal.objects.get(key='jwt').value), algorithms=['HS256'])
@@ -147,10 +147,17 @@ def threading(request):
 			user_type=json_decoded['user_type']
 			access_level=request.POST.get['access_level']
 			if(access_level==0):
-				thread_data
-			if(user_type==0):
-			if(user_type==1):
-
+				thread_data.objects.create(title=title,access_level=access_level,description=description)
+			if(access_level==1):
+				if(user_type==0):
+					thread_data.objects.create(title=title,access_level=access_level,description=description,department=teacher_data.objects.get(id=id).department)
+				if(user_type==1):
+					thread_data.objects.create(title=title,access_level=access_level,description=description,department=class_data.objects.get(id=students_in_class_data.objects.get(student=id).class_name).department)
+			if(access_level==2):
+				if(user_type==0):
+					thread_data.objects.create(title=title,access_level=access_level,description=description,class_id=teacher_data.objects.get(id=id).department)
+				if(user_type==1):
+					thread_data.objects.create(title=title,access_level=1,description=description,department=class_data.objects.get(id=students_in_class_data.objects.get(student=id).class_name).department)
 		except Exception,e:
 			response['success']=False
 			response['message']=str(e)
