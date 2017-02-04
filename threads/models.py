@@ -10,9 +10,15 @@ class thread_data(models.Model):
 	access_level=models.IntegerField()
 	department=models.ForeignKey(department_data,to_field='id',null=True)
 	class_id=models.ForeignKey(class_data,to_field='id',null=True)
+	title=models.CharField(max_length=120,null=True)
+	description=models.CharField(max_length=120,null=True)
+	author=models.CharField(max_length=120,null=True)
+	created= models.DateTimeField(auto_now=False,auto_now_add=True,null=True)
 
 class message_data(models.Model):
 	thread_id=models.ForeignKey(thread_data,to_field='id')
+	author_id=models.CharField(max_length=120,blank=False,null=False)
+	author_name=models.CharField(max_length=120,blank=False,null=False)
 	message=models.CharField(max_length=120,blank=False,null=False)
 	department=models.ForeignKey(department_data,to_field='id',null=True)
 	class_id=models.ForeignKey(class_data,to_field='id',null=True)

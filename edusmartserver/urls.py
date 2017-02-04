@@ -21,6 +21,8 @@ from subjects.views import file_upload
 from splash_screen.views import splash
 from welcome.views import welcome
 from home.views import home
+from threads.views import threading,messaging
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', login),
@@ -29,6 +31,9 @@ urlpatterns = [
     url(r'^splash_screen/', splash),
     url(r'^welcome/', welcome),
     url(r'^home/', home),
+    url(r'^thread/', threading),
+        url(r'^message/', messaging),
+
 ]
 
 from django.conf import settings

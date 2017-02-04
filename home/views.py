@@ -18,6 +18,7 @@ from classes.models import class_announcements,class_assignments
 #type=2 for assignments
 #type=3 for announcements
 #type=4 for notice
+#type=5 for syllabus
 @csrf_exempt
 def home(request):
 	response={}
@@ -109,6 +110,7 @@ def home(request):
 						tmp_json={}
 						subject=subjects_data.objects.get(id=o.subject)
 						tmp_json['name']=subject.name
+						tmp_json['id']=subject.id
 						tmp_json['card_type']=1
 						data_list.append(tmp_json)
 					###################################################################################################
