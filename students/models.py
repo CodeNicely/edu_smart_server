@@ -7,7 +7,7 @@ import hashlib
 # Create your models here.
 class students_data(models.Model):
 	name=models.CharField(max_length=120,blank=False,null=False)
-	roll_no=models.CharField(max_length=120,blank=False,null=False)
+	id=models.CharField(max_length=120,blank=False,null=False,primary_key=True)
 	mobile=models.CharField(max_length=120,blank=False,null=True)
 	email=models.CharField(max_length=120,blank=False,null=True)
 	modified= models.DateTimeField(auto_now=True,auto_now_add=False)

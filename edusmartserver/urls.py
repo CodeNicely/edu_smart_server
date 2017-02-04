@@ -20,6 +20,7 @@ from login.views import login,verify
 from subjects.views import file_upload
 from splash_screen.views import splash
 from welcome.views import welcome
+from home.views import home
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', login),
@@ -27,6 +28,7 @@ urlpatterns = [
     url(r'^upload/', file_upload),
     url(r'^splash_screen/', splash),
     url(r'^welcome/', welcome),
+    url(r'^home/', home),
 ]
 
 from django.conf import settings

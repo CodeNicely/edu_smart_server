@@ -5,25 +5,7 @@ import time
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import multiprocessing as mp
-def notify(data_type,message,fcm_list):
-	for o in fcm_list:
-		send_notification(data_type,o,message)
 
-def divide_notification(data_type,fcm_list,message):
-	fcm_len=len(fcm_list)
-	tmp=fcm_len
-	if fcm_len<4:
-		tmp=fcm_len
-	for x in range(0,fcm_len,tmp):
-		if(x+fcm_len/4<=fcm_len):
-			print x,x+fcm_len/4
-			p1=mp.Process(name='send_notification',target=notify,args=(data_type,message,fcm_list[x:x+fcm_len/4]))
-			p1.start()
-		else:
-			print x,fcm_len
-			p1=mp.Process(name='send_notification',target=notify,args=(data_type,message,fcm_list[x:fcm_len]))
-			p1.start()
-		#time.sleep(1)
 @csrf_exempt
 def messaging(request):
 	response={}
@@ -111,4 +93,66 @@ def messaging(request):
 			response['success']=False
 			response['message']=str(e)
 	print response
+	return JsonResponse(response)
+
+def threading(request):
+	response={}
+	if(request.method=='GET'):
+		try:
+			access_token=request.GET.get('access_token')
+			access_level=request.GET.get('access_level')
+			json_decoded=jwt.decode(str(access_token),str(KEYS_internal.objects.get(key='jwt').value), algorithms=['HS256'])
+			id=json_decoded['id']
+			user_type=json_decoded['user_type']
+			for o in thread_data.objects.all():
+				data_array=[]
+				flag=0
+				if(o.access_level==0):
+					flag=1
+				if(o.access_level==1):
+					if(user_type==0):
+						if(o.department==teacher_data.objects.get(id=id).department):
+							flag=1
+					if(user_type==1):
+						if(o.department==class_data.objects.get(id=students_in_class_data.objects.get(teacher=id).class_name).department)
+						flag=1
+				if(o.access_level==2):
+					if(user_type==0):
+						class_id_array=[]
+						for x in subjects_class_teacher_data.objects.filter(taecher=id):
+							class_id_array.append(x.class_id)
+						if(o.class_id in class_id_array):
+							flag=1
+					if(user_type==1):
+						if(o.class_id==class_data.objects.get(id=students_in_class_data.objects.get(student=id).class_name))
+						flag=1
+				if(flag==1):
+					tmp_json={}
+					tmp_json['title']=o.title
+					tmp_json['description']=o.description
+					data_array.append(tmp_json)
+			response['data_list']=data_array
+			response['success']=True
+		except Exception,e:
+			response['success']=False
+			response['message']=str(e)
+	if(request.method=='POST'):
+		try:
+			access_token=request.POST.get('access_token')
+			access_level=request.POST.get('access_level')
+			title=request.POST.get('title')
+			description=request.POST.get('description')
+			json_decoded=jwt.decode(str(access_token),str(KEYS_internal.objects.get(key='jwt').value), algorithms=['HS256'])
+			id=json_decoded['id']
+			user_type=json_decoded['user_type']
+			access_level=request.POST.get['access_level']
+			if(access_level==0):
+				thread_data
+			if(user_type==0):
+			if(user_type==1):
+
+		except Exception,e:
+			response['success']=False
+			response['message']=str(e)
+
 	return JsonResponse(response)

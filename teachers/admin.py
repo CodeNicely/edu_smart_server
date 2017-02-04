@@ -3,5 +3,5 @@ from .models import *
 # Register your models here.
 class teachers_data_Admin(admin.ModelAdmin):
 	list_display=["name","department","created","modified"]
-	field=["name","department","roll_no"]
+	field=["name","department","id"]
 admin.site.register(teachers_data,teachers_data_Admin)

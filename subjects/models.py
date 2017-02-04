@@ -21,7 +21,7 @@ class subjects_class_teacher_data(models.Model):
 
 class subjects_syllabus(models.Model):
 	title=models.CharField(max_length=120,blank=False,null=False)
-	subject= models.ForeignKey(subjects_data)
+	subject= models.ForeignKey(subjects_data,to_field='id')
 	description= models.CharField(max_length=120,blank=False,null=False)
 	modified= models.DateTimeField(auto_now=True,auto_now_add=False)
 	created= models.DateTimeField(auto_now=False,auto_now_add=True)

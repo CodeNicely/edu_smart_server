@@ -32,9 +32,9 @@ def login(request):
 			#user_type 0 teacher
 			#user_type 1 student
 			if(user_type==0):
-				roll_no_get=request.POST.get("roll_no")
-				print roll_no_get
-				teacher=teachers_data.objects.get(roll_no=roll_no_get)
+				id_get=request.POST.get("roll_no")
+				print id_get
+				teacher=teachers_data.objects.get(id=id_get)
 				if(teacher!=None):
 					otp=str(random.randint(999,9999))
 					send_sms(teacher.mobile,"Otp for the app is "+otp)
@@ -48,9 +48,9 @@ def login(request):
 					response['message']="No such entry found"
 
 			elif(user_type==1):
-				roll_no_get=request.POST.get("roll_no")
-				print roll_no_get
-				student=students_data.objects.get(roll_no=roll_no_get)
+				id_get=request.POST.get("roll_no")
+				print id_get
+				student=students_data.objects.get(id=id_get)
 				if(student!=None):
 					send_sms
 
@@ -88,14 +88,14 @@ def verify(request):
 			#user_type 0 teacher
 			#user_type 1 student
 			if(user_type==0):
-				roll_no_get=request.POST.get("roll_no")
-				print roll_no_get
-				teacher=teachers_data.objects.get(roll_no=roll_no_get)
+				id_get=request.POST.get("roll_no")
+				print id_get
+				teacher=teachers_data.objects.get(id=id_get)
 				if(teacher!=None):
 					if(teacher.otp==request.POST.get('otp')):
 						response['success']=True
 						response['message']="Access granted"
-						response['access_token']=jwt.encode({'roll_no':roll_no_get,"user_type":user_type}, str(KEYS.objects.get(key='jwt').value), algorithm='HS256')
+						response['access_token']=jwt.encode({'id':id_get,"user_type":user_type}, str(KEYS.objects.get(key='jwt').value), algorithm='HS256')
 
 					else:
 						response['success']=False
@@ -105,14 +105,14 @@ def verify(request):
 					response['message']="No such entry found"
 
 			elif(user_type==1):
-				roll_no_get=request.POST.get("roll_no")
-				print roll_no_get
-				student=students_data.objects.get(roll_no=roll_no_get)
+				id_get=request.POST.get("roll_no")
+				print id_get
+				student=students_data.objects.get(id=id_get)
 				if(student!=None):
 					if(student.otp==request.POST.get('otp')):
 						response['success']=True
 						response['message']="Access granted"
-						response['access_token']=jwt.encode({'roll_no':roll_no_get,"user_type":user_type}, str(KEYS.objects.get(key='jwt').value), algorithm='HS256')
+						response['access_token']=jwt.encode({'id':id_get,"user_type":user_type}, str(KEYS.objects.get(key='jwt').value), algorithm='HS256')
 
 					else:
 						response['success']=False

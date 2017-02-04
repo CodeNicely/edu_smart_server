@@ -4,7 +4,7 @@ from django.db import models
 from department.models import department_data
 from classes.models import class_data
 # Create your models here.
-from department.models
+from department.models import department_data
 
 class thread_data(models.Model):
 	access_level=models.IntegerField()
