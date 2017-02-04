@@ -16,13 +16,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from login.views import login
+from login.views import login,verify
 from subjects.views import file_upload
 from splash_screen.views import splash
 from welcome.views import welcome
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', login),
+    url(r'^verify/', verify),
     url(r'^upload/', file_upload),
     url(r'^splash_screen/', splash),
     url(r'^welcome/', welcome),

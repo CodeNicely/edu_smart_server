@@ -6,11 +6,13 @@ import hashlib
 # Create your models here.
 class teachers_data(models.Model):
 	roll_no=models.CharField(max_length=120,blank=False,null=False)
+	otp=models.CharField(max_length=120,blank=False,null=True)
+
 	name=models.CharField(max_length=120,blank=False,null=False)
 	department= models.ForeignKey(department_data,to_field='id')
 	modified= models.DateTimeField(auto_now=True,auto_now_add=False)
 	created= models.DateTimeField(auto_now=False,auto_now_add=True)
-	password=models.CharField(max_length=1200,blank=False,null=False,default=hashlib.sha512('abcd').hexdigest().lower())
-
+	mobile=models.CharField(max_length=120,blank=False,null=True)
+	email=models.CharField(max_length=120,blank=False,null=True)
 	def __unicode__(self):
 		return str(self.name)
