@@ -17,8 +17,8 @@ class thread_data(models.Model):
 
 class message_data(models.Model):
 	thread_id=models.ForeignKey(thread_data,to_field='id')
-	author_id=models.CharField(max_length=120,blank=False,null=False)
-	author_name=models.CharField(max_length=120,blank=False,null=False)
+	author_id=models.CharField(max_length=120,blank=False,null=True)
+	author_name=models.CharField(max_length=120,blank=False,null=True)
 	message=models.CharField(max_length=120,blank=False,null=False)
 	department=models.ForeignKey(department_data,to_field='id',null=True)
 	class_id=models.ForeignKey(class_data,to_field='id',null=True)
