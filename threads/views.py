@@ -39,7 +39,8 @@ def messaging(request):
 				else:
 					tmp_response['owner']=False
 				tmp_response['body']=o.message
-				tmp_response['author_name']=o.author_name
+				tmp_response['user_id']=o.author_name
+				tmp_response['image']=request.scheme+'://'+request.get_host()+'/media/'+str(o.profile)
 				tmp_response['message_id']=o.id
 				tmp_response['created']=str(o.created)[:18]
 				message_list.append(tmp_response)
@@ -102,16 +103,22 @@ def messaging(request):
 				try:
 					teacher=teachers_data.objects.get(id=id)
 					author=teacher.name
-				except:
-					pass
+					profile=teacher.profile_image
+					#profile=request.scheme+'://'+request.get_host()+'/media/'+str(teacher.profile)
+				except Exception,e:
+					print e
 				try:
 					student=students_data.objects.get(id=id)
 					author=student.name
-				except:
-					pass
-				message_data.objects.create(thread_id=thread,author_id=id,author_name=author,message=body)
+					profile=student.profile_image
+				except Exception,e:
+					print e
+				print"116"
+				message_data.objects.create(thread_id=thread,author_id=id,author_name=author,message=body,profile=profile)
 				print "82"
 				response['success']=True
+				#response['profile']=profile
+
 				response['message']='message sent'
 
 				#fcm_list=(o.fcm for o in user_list)

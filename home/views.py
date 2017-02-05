@@ -76,6 +76,7 @@ def home(request):
 						# class_object=class_all.get(id=)
 						tmp_json['department']=o.subject.department.name
 						tmp_json['title']=o.subject.name
+						tmp_json['description']=o.subject.description
 						tmp_json['card_type']=1
 						tmp_json['id']=o.subject.id
 						#tmp_json['count']=students_in_class_data.objects.filter(class_name=o.class_id).count()
@@ -120,6 +121,7 @@ def home(request):
 						tmp_json={}
 						#subject=subjects_data.objects.get(id=o.subject)
 						tmp_json['title']=o.subject.name
+						tmp_json['description']=o.subject.description
 						tmp_json['id']=o.subject.id
 						tmp_json['card_type']=1
 						data_list.append(tmp_json)

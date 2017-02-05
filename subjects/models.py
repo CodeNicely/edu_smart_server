@@ -10,7 +10,7 @@ class subjects_data(models.Model):
 	name=models.CharField(max_length=120,blank=False,null=False)
 	modified= models.DateTimeField(auto_now=True,auto_now_add=False)
 	created= models.DateTimeField(auto_now=False,auto_now_add=True)
-
+	description= models.CharField(max_length=120,blank=True,null=True)
 	def __unicode__(self):
 		return str(self.name)
 

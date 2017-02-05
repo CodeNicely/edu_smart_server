@@ -21,5 +21,6 @@ class message_data(models.Model):
 	author_name=models.CharField(max_length=120,blank=False,null=True)
 	message=models.CharField(max_length=120,blank=False,null=False)
 	teacher=models.BooleanField(default=False)
+	profile=models.ImageField(upload_to="media/profile",default="media/profile/people.png",null=True,blank=True)
 	modified= models.DateTimeField(auto_now=True,auto_now_add=False)
 	created= models.DateTimeField(auto_now=False,auto_now_add=True)

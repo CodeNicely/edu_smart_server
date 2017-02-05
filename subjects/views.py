@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from classes.models import *
 from subjects.models import *
+import jwt
+from general.models import KEYS
 def file(fullname):
 	print fullname
 	name=fullname.split('.')[1]
@@ -31,6 +33,17 @@ def file_upload(request):
 			#type=0 resource
 			#type=1 assignment
 			#type=2 announcement
+			
+
+			access_token=request.POST.get('access_token')
+			print "access_token",access_token
+			#user_type 0 teacher
+			#user_type 1 student
+
+			json_decoded=jwt.decode(str(access_token),str(KEYS.objects.get(key='jwt').value), algorithms=['HS256'])
+			id=json_decoded['id']
+			user_type=json_decoded['user_type']
+			
 			file=request.FILES.get('file').name
 			print file
 			if(str(file)!="None"):
@@ -44,15 +57,18 @@ def file_upload(request):
 				fout.close()
 				print"file created"
 			subject_id=int(request.POST.get('subject_id'))
+			print"subject_id",subject_id
+			subject_id=1
 			title=request.POST.get('title')
 			description=request.POST.get('description')
 			response['success']=True
 			response['message']="file uploaded"
-			if(file_upload_type==0):
+			print "file_type",file_upload_type
+			if(file_upload_type==5):
 				subjects_resources.objects.create(title=title,description=description,file=file_name,subject=subjects_data.objects.get(id=subject_id))
-			elif (file_upload_type==1):
-				class_assignments.objects.create(title=title,description=description,file=file_name,subject=subjects_data.objects.get(id=subject_id))
 			elif (file_upload_type==2):
+				class_assignments.objects.create(title=title,description=description,file=file_name,subject=subjects_data.objects.get(id=subject_id))
+			elif (file_upload_type==3):
 				class_announcements.objects.create(title=title,description=description,file=file_name,subject=subjects_data.objects.get(id=subject_id))
 			else:
 				response['success']=False
@@ -66,7 +82,6 @@ def file_upload(request):
 		response['message']="Not get method"
 	print response
 	return JsonResponse(response)
-
 
 #type=0 for heading
 #type=1 for subject
@@ -95,7 +110,7 @@ def data(request):
 						tmp_json['title']=o.title
 						tmp_json['description']=o.description
 						tmp_json['author']=o.author
-						tmp_json['deadline']=o.deadline
+						tmp_json['deadline']=str(o.deadline)[:18]
 						tmp_json['created']=str(o.created)[:18]
 						tmp_json['card_type']=2
 						data_list.append(tmp_json)
