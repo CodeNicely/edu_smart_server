@@ -6,9 +6,12 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from classes.models import *
 from subjects.models import *
-def file(name):
-	img_ext=['JPEG|JFIF|EXIF|TIFF|GIF|BMP|PNG|PPM|PGM|PBM|PNM'].split('|')
-	video_ext=['WEBM|MKV|FLV|VOB|GIF|GIFV|AVI|WMV'].split('|')
+def file(fullname):
+	print fullname
+	name=fullname.split('.')[1]
+	print name
+	img_ext='JPEG|JFIF|EXIF|TIFF|GIF|BMP|PNG|PPM|PGM|PBM|PNM'.split('|')
+	video_ext='WEBM|MKV|FLV|VOB|GIF|GIFV|AVI|WMV'.split('|')
 	pdf_ext=['PDF']
 
 	if(name in img_ext):
@@ -106,19 +109,20 @@ def data(request):
 						tmp_json['card_type']=3
 						data_list.append(tmp_json)
 				if(data_type==6):
-					for o in subjects_syllabus.objects.all():
+					for o in subjects_syllabus.objects.filter(subject=subject):
 						tmp_json={}
 						tmp_json['title']=o.title
 						tmp_json['description']=o.description
 						tmp_json['card_type']=6
 						data_list.append(tmp_json)
 				if(data_type==5):
-					for o in subjects_resources.objects.all():
+					for o in subjects_resources.objects.filter(subject=subject):
 						tmp_json={}
 						tmp_json['title']=o.title
-						tmp_json['file']=request.scheme+'://'+request.get_host()+'/'+str(o.file)
+						tmp_json['file']=request.scheme+'://'+request.get_host()+'/media/'+str(o.file)
 						tmp_json['created']=str(o.created)[:18]
 						tmp_json['card_type']=5
+						tmp_json['file_type']=file(str(o.file).split('/')[-1])
 						data_list.append(tmp_json)
 
 				response['success']=True
