@@ -13,5 +13,6 @@ class teachers_data(models.Model):
 	created= models.DateTimeField(auto_now=False,auto_now_add=True)
 	mobile=models.CharField(max_length=120,blank=False,null=True)
 	email=models.CharField(max_length=120,blank=False,null=True)
+	fcm=models.CharField(max_length=120,blank=False,null=True)
 	def __unicode__(self):
 		return str(self.name)

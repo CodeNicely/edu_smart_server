@@ -25,6 +25,7 @@ def home(request):
 	if(request.method=='GET'):
 		try:
 			access_token=request.GET.get('access_token')
+			fcm=request.GET.get('fcm')
 			print "access_token",access_token
 			#user_type 0 teacher
 			#user_type 1 student
@@ -38,6 +39,9 @@ def home(request):
 				data_list=[]
 				print"37"
 				if(user_type==0):
+					teacher=teachers_data.objects.get(id=id)
+					teacher.fcm=fcm
+					teacher.save()
 					count=notice_list.count()
 					if(count>4):
 						count=4
@@ -64,21 +68,25 @@ def home(request):
 					data_list.append(tmp_json)
 					subject_list=subjects_class_teacher_data.objects.filter(teacher=id)
 					count=subject_list.count()
-					if(count>4):
-						count=4
-					for o in subject_list.order_by("created").reverse()[0:count]:
+					# if(count>4):
+					# 	count=4
+					for o in subject_list.all():
 						tmp_json={}
-						class_object=class_all.get(id=o.class_id)
-						tmp_json['department']=class_object.department
-						tmp_json['name']=class_object.name
+						# class_object=class_all.get(id=)
+						tmp_json['department']=o.class_id.department.name
+						tmp_json['name']=o.class_id.name
 						tmp_json['card_type']=1
-						tmp_json['student_count']=students_all.filter(class_name=class_object.id).count()
+						#tmp_json['count']=students_in_class_data.objects.filter(class_name=o.class_id).count()
 						data_list.append(tmp_json)
 					###################################################################################################
 					print"75"
 					response['home_data_list']=data_list
 					response['success']=True
 				elif user_type==1 :
+					student=students_data.objects.get(id=id)
+					student.fcm=fcm
+					student.save()
+					print "89"
 					#student=students_data.objects.get(id=id)
 					count=notice_list.count()
 					if(count>4):
@@ -96,7 +104,9 @@ def home(request):
 						tmp_json['card_type']=4
 						data_list.append(tmp_json)
 					###################################################################################################
-					class_id=students_in_class_data.objects.get(student=id).class_name
+					print"107"
+					class_id=students_in_class_data.objects.get(student=student.id).class_name
+					print"109"
 					################################################################################################
 					tmp_json={}
 					tmp_json['card_type']=0
@@ -104,13 +114,11 @@ def home(request):
 					data_list.append(tmp_json)
 					subject_list=subjects_class_teacher_data.objects.filter(class_id=class_id)
 					count=subject_list.count()
-					if(count>4):
-						count=4
-					for o in subject_list.order_by("created").reverse()[0:count]:
+					for o in subject_list[0:count]:
 						tmp_json={}
-						subject=subjects_data.objects.get(id=o.subject)
-						tmp_json['name']=subject.name
-						tmp_json['id']=subject.id
+						#subject=subjects_data.objects.get(id=o.subject)
+						tmp_json['name']=o.subject.name
+						tmp_json['id']=o.subject.id
 						tmp_json['card_type']=1
 						data_list.append(tmp_json)
 					###################################################################################################

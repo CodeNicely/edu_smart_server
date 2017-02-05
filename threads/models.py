@@ -20,8 +20,6 @@ class message_data(models.Model):
 	author_id=models.CharField(max_length=120,blank=False,null=True)
 	author_name=models.CharField(max_length=120,blank=False,null=True)
 	message=models.CharField(max_length=120,blank=False,null=False)
-	department=models.ForeignKey(department_data,to_field='id',null=True)
-	class_id=models.ForeignKey(class_data,to_field='id',null=True)
 	teacher=models.BooleanField(default=False)
 	modified= models.DateTimeField(auto_now=True,auto_now_add=False)
 	created= models.DateTimeField(auto_now=False,auto_now_add=True)

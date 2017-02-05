@@ -30,5 +30,5 @@ class subjects_syllabus(models.Model):
 class subjects_resources(models.Model):
 	subject= models.ForeignKey(subjects_data,to_field='id')
 	title=models.CharField(max_length=120,blank=False,null=False)
-	file= models.FileField(upload_to='resources/',null=True)
+	file= models.FileField(upload_to='resources/',null=True,blank=True)
 	created= models.DateTimeField(auto_now=False,auto_now_add=True)

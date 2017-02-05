@@ -15,7 +15,7 @@ class class_announcements(models.Model):
 	class_id= models.ForeignKey(class_data,to_field='id')
 	title=models.CharField(max_length=120,blank=False,null=False)
 	description=models.CharField(max_length=120,blank=False,null=True)
-	file= models.FileField(upload_to='resources/',null=True)
+	file= models.FileField(upload_to='resources/',null=True,blank=True)
 	created= models.DateTimeField(auto_now=False,auto_now_add=True)
 	author=models.CharField(max_length=120,blank=False,null=True)
 
@@ -23,7 +23,7 @@ class class_assignments(models.Model):
 	title=models.CharField(max_length=120,blank=False,null=False)
 	description=models.CharField(max_length=120,blank=False,null=True)
 	class_id= models.ForeignKey(class_data,to_field='id')
-	file= models.FileField(upload_to='resources/',null=True)
+	file= models.FileField(upload_to='resources/',null=True,blank=True)
 	author=models.CharField(max_length=120,blank=False,null=True)
 	deadline= models.DateTimeField()
 	modified= models.DateTimeField(auto_now=True,auto_now_add=False)
