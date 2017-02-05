@@ -71,52 +71,65 @@ def file_upload(request):
 #type=3 for announcements
 #type=4 for notice
 #type=5 for resources
-#type=6 for syllabus
+#type=6 syllabus
 def data(request):
 	response={}
 	if(request.method=="GET"):
 		try:
 			subject_id=int(request.GET.get('subject_id'))
-			data_type=int(request.GET.get('data_type'))
+			print "subject_id",subject_id
+			data_type=int(request.GET.get('type'))
+			print data_type
 			data_list=[]
 #			if(data_type==0):
 #			if(data_type==1):
-			if(data_type==2):
-				for o in class_assignments.objects.all():
-					tmp_json={}
-					tmp_json['title']=o.title
-					tmp_json['description']=o.description
-					tmp_json['author']=o.author
-					tmp_json['deadline']=o.deadline
-					tmp_json['created']=str(o.created)[:18]
-					data_list.append(tmp_json)
-			if(data_type==3):
-				for o in class_announcements.objects.all():
-					tmp_json={}
-					tmp_json['title']=o.title
-					tmp_json['description']=o.description
-					tmp_json['author']=o.author
-					tmp_json['created']=str(o.created)[:18]
-					data_list.append(tmp_json)
-			if(data_type==6):
-				for o in subjects_syllabus.objects.all():
-					tmp_json={}
-					tmp_json['title']=o.title
-					tmp_json['description']=o.description
-					data_list.append(tmp_json)
-			if(data_type==5):
-				for o in subjects_resources.objects.all():
-					tmp_json={}
-					tmp_json['title']=o.title
-					tmp_json['file']=request.scheme+'://'+request.get_host()+'/'+str(o.file)
-					tmp_json['created']=str(o.created)[:18]
-					data_list.append(tmp_json)
+			if(subject_id!=-9999):
+				subject=subjects_data.objects.get(id=subject_id)
+				print subject.name
+				if(data_type==2):
+					for o in class_assignments.objects.filter(class_id=subjects_class_teacher_data.objects.get(subject=subject.id).class_id):
+						tmp_json={}
+						tmp_json['title']=o.title
+						tmp_json['description']=o.description
+						tmp_json['author']=o.author
+						tmp_json['deadline']=o.deadline
+						tmp_json['created']=str(o.created)[:18]
+						tmp_json['card_type']=2
+						data_list.append(tmp_json)
+				if(data_type==3):
+					for o in class_announcements.objects.filter(class_id=subjects_class_teacher_data.objects.get(subject=subject).class_id):
+						tmp_json={}
+						tmp_json['title']=o.title
+						tmp_json['description']=o.description
+						tmp_json['author']=o.author
+						tmp_json['created']=str(o.created)[:18]
+						tmp_json['card_type']=3
+						data_list.append(tmp_json)
+				if(data_type==6):
+					for o in subjects_syllabus.objects.all():
+						tmp_json={}
+						tmp_json['title']=o.title
+						tmp_json['description']=o.description
+						tmp_json['card_type']=6
+						data_list.append(tmp_json)
+				if(data_type==5):
+					for o in subjects_resources.objects.all():
+						tmp_json={}
+						tmp_json['title']=o.title
+						tmp_json['file']=request.scheme+'://'+request.get_host()+'/'+str(o.file)
+						tmp_json['created']=str(o.created)[:18]
+						tmp_json['card_type']=5
+						data_list.append(tmp_json)
 
-			response['success']=True
-			response['message']="Sucessfull"
+				response['success']=True
+				response['message']="Sucessfull"
+				response['home_data_list']=data_list
+
 		except Exception,e:
 			response['success']=False
 			response['message']=str(e)
 	else:
 		response['success']=False
 		response['message']="not get method"
+	print response
+	return JsonResponse(response)

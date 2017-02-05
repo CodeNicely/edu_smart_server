@@ -18,7 +18,8 @@ from classes.models import class_announcements,class_assignments
 #type=2 for assignments
 #type=3 for announcements
 #type=4 for notice
-#type=5 for syllabus
+#type=5 for resources
+#type=6 syllabus
 @csrf_exempt
 def home(request):
 	response={}
@@ -66,16 +67,17 @@ def home(request):
 					tmp_json['card_type']=0
 					tmp_json['title']="Subjects"
 					data_list.append(tmp_json)
-					subject_list=subjects_class_teacher_data.objects.filter(teacher=id)
+					subject_list=subjects_class_teacher_data.objects.filter(teacher=teachers_data.objects.get(id=id))
 					count=subject_list.count()
 					# if(count>4):
 					# 	count=4
 					for o in subject_list.all():
 						tmp_json={}
 						# class_object=class_all.get(id=)
-						tmp_json['department']=o.class_id.department.name
-						tmp_json['name']=o.class_id.name
+						tmp_json['department']=o.subject.department.name
+						tmp_json['title']=o.subject.name
 						tmp_json['card_type']=1
+						tmp_json['id']=o.subject.id
 						#tmp_json['count']=students_in_class_data.objects.filter(class_name=o.class_id).count()
 						data_list.append(tmp_json)
 					###################################################################################################
@@ -117,7 +119,7 @@ def home(request):
 					for o in subject_list[0:count]:
 						tmp_json={}
 						#subject=subjects_data.objects.get(id=o.subject)
-						tmp_json['name']=o.subject.name
+						tmp_json['title']=o.subject.name
 						tmp_json['id']=o.subject.id
 						tmp_json['card_type']=1
 						data_list.append(tmp_json)

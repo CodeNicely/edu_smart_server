@@ -22,7 +22,7 @@ from splash_screen.views import splash
 from welcome.views import welcome
 from home.views import home
 from threads.views import threading,messaging
-
+from subjects.views import data
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', login),
@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^splash_screen/', splash),
     url(r'^welcome/', welcome),
     url(r'^home/', home),
+    url(r'^data/', data),
     url(r'^thread/', threading),
         url(r'^message/', messaging),
 
